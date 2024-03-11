@@ -1,0 +1,13 @@
+<script>
+  // Check if the global site tag (gtag.js) library has loaded
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // Update consent settings to not require consent
+  // This example sets ad_storage and analytics_storage to "denied",
+  // effectively disabling them. Adjust according to your needs.
+  gtag('consent', 'update', {
+    'ad_storage': 'granted',
+    'analytics_storage': 'granted'
+  });
+</script>
