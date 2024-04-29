@@ -1,0 +1,11 @@
+<script>
+  var isMac = navigator.platform.toUpperCase().indexOf('MAC')>=0;
+  var ctrlKey = isMac ? "metaKey" : "ctrlKey";
+  document.addEventListener('keydown', function(evt) {
+    if (evt.which == '70' && evt[ctrlKey]) {
+      dataLayer.push({
+        event: "searchUsed"
+      })
+    }
+  });
+</script>
