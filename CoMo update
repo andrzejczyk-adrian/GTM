@@ -1,0 +1,60 @@
+  <script>
+  // Check if the global site tag (gtag.js) library has loaded
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // Update consent settings to not require consent
+  // This example sets ad_storage and analytics_storage to "denied",
+  // effectively disabling them. Adjust according to your needs.
+  gtag('consent', 'update', {
+    'ad_storage': 'granted',
+    'analytics_storage': 'granted'
+  });
+</script>
+
+
+  /* lub taki */
+
+  <script>
+  (function() {
+    // Ustawienia default jako 'denied'
+    var defaultConsents = {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'denied',
+      'personalization_storage': 'denied',
+      'security_storage': 'denied'
+    };
+
+    // Ustawienia update jako 'granted'
+    var grantedConsents = {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'personalization_storage': 'granted',
+      'security_storage': 'granted'
+    };
+
+    // Funkcja do ustawiania zgód
+    function setConsents() {
+      if (typeof gtag === 'function') {
+        // Najpierw ustawienia default jako 'denied'
+        gtag('consent', 'default', defaultConsents);
+        console.log('Default consents set to denied:', defaultConsents);
+
+        // Następnie aktualizacja zgód na 'granted'
+        gtag('consent', 'update', grantedConsents);
+        console.log('Consents updated to granted:', grantedConsents);
+      } else {
+        console.error('gtag function is not available.');
+      }
+    }
+
+    // Natychmiastowa aktualizacja zgód
+    setConsents();
+  })();
+</script>
