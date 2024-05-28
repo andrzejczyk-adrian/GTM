@@ -1,0 +1,69 @@
+1. osobno page view
+
+
+/* 2. S/M script */
+
+<script>
+  // Funkcja do ustawiania ciasteczka
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=Lax";
+  }
+
+  // Funkcja do wyciągania parametrów z URL
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+  // Lista wykluczonych domen
+  var excludedDomainsRegex = /(?:suzana\.pl|tagassistant\.google\.com|poczta\.wp\.pl|poczta\.interia\.pl|poczta\.o2\.pl|poczta\.onet\.pl|poczta\.gazeta\.pl|mail\.google\.com|zasobygwp\.pl|system\.t-mobilebankowe\.pl|system\.aliorbank\.pl|sgb24\.pl|secure\.payu\.com|secure\.getinbank\.pl|rwd\.bskrasnystaw\.pl|plusbank24\.pl|platnosci\.pl|platnosci\.pekao24\.pl|planet\.bnpparibas\.pl|pekaobiznes24\.pl|pbn\.paybynet\.com\.pl|payu\.com|paypal\.com|online\.sbrbank\.pl|online\.sbppiaski\.pl|online\.pbssokolow\.pl|online\.mbank\.pl|online\.bsgorzyce\.pl|online\.bsgarwolin\.com\.pl|online\.bsbr\.pl|online\.bs\.bialystok\.pl|net-bank\.bszgierz\.pl|nestbank\.pl|okbank\.pl)/;
+
+  // Główna funkcja do sprawdzania i zapisywania utm_source i utm_medium
+  function checkAndStoreUTM() {
+    var utmSource = getParameterByName('utm_source');
+    var utmMedium = getParameterByName('utm_medium');
+    var gclid = getParameterByName('gclid');
+    var fbclid = getParameterByName('fbclid');
+    var referrer = document.referrer;
+
+    if (gclid || fbclid) {
+      console.log("Setting cookies for gclid or fbclid");
+      var source = gclid ? 'google' : 'facebook';
+      setCookie('andrzejczyk_source', source, 30);  // Ustawienie ciasteczka na 30 dni
+      setCookie('andrzejczyk_medium', 'cpc', 30);    // Ustawienie ciasteczka na 30 dni
+      return;
+    }
+
+    if (utmSource) {
+      console.log("Setting cookies for utm_source");
+      setCookie('andrzejczyk_source', utmSource, 30);  // Ustawienie ciasteczka na 30 dni
+      setCookie('andrzejczyk_medium', utmMedium, 30);  // Ustawienie ciasteczka na 30 dni
+      return;
+    }
+
+    if (referrer && !excludedDomainsRegex.test(referrer)) {
+      console.log("Setting cookies for referrer");
+      try {
+        var referrerDomain = (new URL(referrer)).hostname;
+        setCookie('andrzejczyk_source', referrerDomain, 30);  // Ustawienie ciasteczka na 30 dni
+        setCookie('andrzejczyk_medium', 'referral', 30);      // Ustawienie ciasteczka na 30 dni
+      } catch (e) {
+        console.error("Error parsing referrer URL", e);
+      }
+    }
+  }
+
+  // Wywołanie funkcji na załadowaniu strony
+  checkAndStoreUTM();
+</script>
