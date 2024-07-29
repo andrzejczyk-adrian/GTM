@@ -1,0 +1,11 @@
+function() {
+  // Pobierz wartość userID z localStorage
+  var userID = localStorage.getItem('userID');
+  
+  // Sprawdź, czy userID istnieje
+  if (userID) {
+    return userID;
+  } else {
+    return null;
+  }
+}
