@@ -59,7 +59,7 @@ Adrian Andrzejczyk - https://andrzejczyk.com.pl
   }
 
   // Lista wykluczonych domen
-  var excludedDomainsRegex = /(?:technica\.pl|sklep\.technica\.pl|tagassistant\.google\.com|accounts.google.com|accounts.google.pl|adpanel.apaczka.pl|api.pekao24.pl|app.asana.com|app.zowie.ai|b24-1uiumn.bitrix24.pl|bankmillennium.pl|bosbank24.pl|business.facebook.com|ca24.credit-agricole.pl|centrum24.pl|citibankonline.pl|com.slack|credit.payu.com|docs.google.com|eblik.pl|euc-excel.officeapps.live.com|exchange.vuemail.com|go.przelewy24.pl|imoje-backoffice.paymento.pl|ingbank.pl|inteligo.pl|ipko.pl|kbs24.pl|kew.advisor247.pl|localhost|login.ingbank.pl|login.nestbank.pl|m.poczta.onet.pl|mail.google.com|mail.grupazpr.pl|mail.northfood.pl|mail.technica.pl|mail.volta.net.pl|mpoczta.me.pl|mtransfer.mbank.pl|officeapps.live.com|pay.bm.pl|paypal.com|paywall.imoje.pl|pekaobiznes24.pl|platnosci.pekao24.pl|plusbank24.pl|poczta.ath.bielsko.pl|poczta.diag.pl|poczta.eurozet.pl|poczta.gazeta.pl|poczta.infocity.pl|poczta.interia.pl|poczta.jadmar.com.pl|poczta.nazwa.pl|poczta.o2.pl|poczta.onet.pl|poczta.psse.malopolska.pl|poczta.technica.pl|poczta.wp.pl|search-dre.dt.dbankcloud.com|secure.getinbank.pl|secure.paylane.com|secure.payu.com|system.aliorbank.pl|tagassistant.google.com|technica.pl)/;
+  var excludedDomainsRegex = /(?:technica\.pl|poczta\.technica\.pl|mail\.technica\.pl|sklep\.technica\.pl|tagassistant\.google\.com|accounts\.google\.com|accounts\.google\.pl|adpanel\.apaczka\.pl|api\.pekao24\.pl|app\.asana\.com|app\.zowie\.ai|b24-1uiumn\.bitrix24\.pl|bankmillennium\.pl|bosbank24\.pl|business\.facebook\.com|ca24\.credit-agricole\.pl|centrum24\.pl|citibankonline\.pl|com\.slack|credit\.payu\.com|docs\.google\.com|eblik\.pl|euc-excel\.officeapps\.live\.com|exchange\.vuemail\.com|go\.przelewy24\.pl|imoje-backoffice\.paymento\.pl|ingbank\.pl|inteligo\.pl|ipko\.pl|kbs24\.pl|kew\.advisor247\.pl|localhost|login\.ingbank\.pl|login\.nestbank\.pl|m\.poczta\.onet\.pl|mail\.google\.com|mail\.grupazpr\.pl|mail\.northfood\.pl|mail\.volta\.net\.pl|mpoczta\.me\.pl|mtransfer\.mbank\.pl|officeapps\.live\.com|pay\.bm\.pl|paypal\.com|paywall\.imoje\.pl|pekaobiznes24\.pl|platnosci\.pekao24\.pl|plusbank24\.pl|poczta\.ath\.bielsko\.pl|poczta\.diag\.pl|poczta\.eurozet\.pl|poczta\.gazeta\.pl|poczta\.infocity\.pl|poczta\.interia\.pl|poczta\.jadmar\.com\.pl|poczta\.nazwa\.pl|poczta\.o2\.pl|poczta\.onet\.pl|poczta\.psse\.malopolska\.pl|poczta\.wp\.pl|search-dre\.dt\.dbankcloud\.com|secure\.getinbank\.pl|secure\.paylane\.com|secure\.payu\.com|system\.aliorbank\.pl)/;
 
   // Lista wyszukiwarek z regexami
   var searchEngines = {
@@ -69,7 +69,7 @@ Adrian Andrzejczyk - https://andrzejczyk.com.pl
   };
 
   // Lista wykluczonych URL-i
-  var excludedPathsRegex = /\/(koszyk|edycja-konta|some-other-path)/;
+  var excludedPathsRegex = /\/(koszyk|edycja-konta|logowanie)/;
 
   // Główna funkcja do sprawdzania i zapisywania utm_source i utm_medium
   function checkAndStoreUTM() {
