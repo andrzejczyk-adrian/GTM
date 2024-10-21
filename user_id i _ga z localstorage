@@ -1,0 +1,74 @@
+<script>
+  // Funkcja do ustawiania ciasteczka
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=Lax";
+  }
+
+  // Funkcja do pobrania wartości zmiennej z warstwy danych
+  function getDataLayerVariable(variable) {
+    if (window.dataLayer) {
+      for (var i = 0; i < window.dataLayer.length; i++) {
+        if (window.dataLayer[i][variable]) {
+          return window.dataLayer[i][variable];
+        }
+      }
+    }
+    return null;
+  }
+
+  // Funkcja do pobrania wartości ciasteczka
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  // Funkcja do ustawienia wartości w localStorage
+  function setLocalStorage(key, value) {
+    if (value) {
+      localStorage.setItem(key, value);
+    }
+  }
+
+  // Funkcja do pobrania wartości z localStorage
+  function getLocalStorage(key) {
+    return localStorage.getItem(key);
+  }
+
+  // Sprawdzenie, czy andrzejczyk_userid jest w localStorage
+  var andrzejczykUserID = getLocalStorage('andrzejczyk_userid');
+
+  if (!andrzejczykUserID) {
+    // Sprawdzenie, czy user_id jest w warstwie danych
+    var userID = getDataLayerVariable('user_id');
+
+    if (userID) {
+      // Przypisanie user_id do localStorage
+      setLocalStorage('andrzejczyk_userid', userID);
+      andrzejczykUserID = userID;
+    } else {
+      // Jeśli nie ma user_id, przypisanie wartości ciasteczka _ga
+      var gaCookie = getCookie('_ga');
+      if (gaCookie) {
+        setLocalStorage('andrzejczyk_userid', gaCookie);
+        andrzejczykUserID = gaCookie;
+      }
+    }
+  }
+
+  // Ustawienie ciasteczka andrzejczyk_userid z wartości localStorage
+  if (andrzejczykUserID) {
+    setCookie('andrzejczyk_userid', andrzejczykUserID, 365 * 10); // Ustawienie ciasteczka na 10 lat
+  }
+</script>
