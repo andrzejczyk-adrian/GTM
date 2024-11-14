@@ -1,0 +1,36 @@
+<script>
+(function() {
+    var clickCount = 0; // Licznik kliknięć
+    var lastClickTime = 0; // Ostatni czas kliknięcia
+    var lastElement = null; // Ostatni kliknięty element
+
+    // Funkcja obsługi kliknięcia
+    document.addEventListener('click', function(event) {
+        var now = new Date().getTime(); // Aktualny czas w milisekundach
+        var targetElement = event.target; // Kliknięty element
+
+        // Sprawdź, czy kliknięcie jest na tym samym elemencie i w krótkim odstępie czasu
+        if (targetElement === lastElement && (now - lastClickTime) < 500) {
+            clickCount++;
+        } else {
+            clickCount = 1; // Reset licznika, jeśli to inny element lub dłuższy czas
+        }
+
+        // Zarejestruj rage click, jeśli więcej niż 3 kliknięcia w tym samym miejscu w krótkim czasie
+        if (clickCount >= 3) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'rage_click',
+                element: targetElement.tagName,
+                elementClasses: targetElement.className,
+                elementID: targetElement.id
+            });
+            clickCount = 0; // Resetuj licznik po zarejestrowaniu
+        }
+
+        // Zapisz ostatni czas i element
+        lastClickTime = now;
+        lastElement = targetElement;
+    });
+})();
+</script>
