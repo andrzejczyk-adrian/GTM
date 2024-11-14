@@ -1,0 +1,32 @@
+<script>
+(function() {
+    /**
+     * Nasłuchiwanie zdarzenia kopiowania tekstu na stronie.
+     * Rejestruje skopiowany tekst w warstwie danych oraz sprawdza, 
+     * czy tekst zawiera znak '@', co wskazuje na e-mail.
+     */
+    document.addEventListener('copy', function(event) {
+        // Pobierz zaznaczony tekst
+        var selectedText = window.getSelection ? window.getSelection().toString() : document.selection.createRange().text;
+
+        // Sprawdź, czy zaznaczono jakikolwiek tekst
+        if (selectedText) {
+            // Sprawdź, czy skopiowany tekst wygląda na e-mail (zawiera '@')
+            var isEmail = selectedText.includes('@');
+
+            // Wyślij dane do warstwy danych (dataLayer)
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'text_copied',            // Zdarzenie: kopiowanie tekstu
+                copiedText: selectedText,       // Skopiowany tekst
+                copiedLength: selectedText.length, // Długość skopiowanego tekstu
+                email: isEmail                  // Czy tekst zawiera e-mail (true/false)
+            });
+
+            // Opcjonalne logowanie do konsoli (tylko do debugowania)
+            console.log('Text copied:', selectedText);
+            console.log('Is email:', isEmail);
+        }
+    });
+})();
+</script>
