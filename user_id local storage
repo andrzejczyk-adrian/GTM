@@ -1,46 +1,67 @@
-// pobiera email z automatycznego tagu User data - auto
-
 <script>
-  (function() {
-    // Pobierz wartość zmiennej GTM, która jest obiektem
-    var userData = {{User data - auto}};
-    
+(function() {
+    // Pobierz wartość zmiennej GTM
+    var userData = {{User data - auto}}; // Wstaw zmienną GTM w odpowiednim formacie
+
+    // Sprawdź, czy zmienna została poprawnie wczytana
+    if (!userData || typeof userData !== "object") {
+        console.error("User data is not an object or is undefined: " + userData);
+        return;
+    }
+
     // Wyciągnij tylko adres e-mail
     var email = userData.email;
 
     // Funkcja do ustawienia wartości w localStorage
     function setLocalStorage(name, value) {
-      if (value) {
-        localStorage.setItem(name, value);
-      }
+        try {
+            if (value) {
+                localStorage.setItem(name, value);
+                console.log("Saved to localStorage: " + name + " = " + value);
+            }
+        } catch (error) {
+            console.error("Error saving to localStorage: " + error);
+        }
     }
 
     // Funkcja do czyszczenia wartości z localStorage
     function clearLocalStorage(name) {
-      localStorage.removeItem(name);
+        try {
+            localStorage.removeItem(name);
+            console.log("Cleared localStorage key: " + name);
+        } catch (error) {
+            console.error("Error clearing localStorage: " + error);
+        }
     }
 
     // Funkcja do ustawienia ciasteczka
     function setCookie(name, value, days) {
-      var expires = "";
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-      }
-      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        try {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            console.log("Cookie set: " + name + " = " + value);
+        } catch (error) {
+            console.error("Error setting cookie: " + error);
+        }
     }
 
-    // Sprawdź, czy email nie jest pusty
-    if (email && email.trim() !== "") {
-      // Wyczyszczenie istniejącego emaila z localStorage
-      clearLocalStorage("userID");
+    // Sprawdź, czy email nie jest pusty i poprawny
+    if (email && typeof email === "string" && email.trim() !== "") {
+        // Wyczyszczenie istniejącego emaila z localStorage
+        clearLocalStorage("userID");
 
-      // Zapisz nowy email w localStorage
-      setLocalStorage("userID", email);
+        // Zapisz nowy email w localStorage
+        setLocalStorage("userID", email);
 
-      // Ustaw ciasteczko userID na 300 dni
-      setCookie("userID", email, 300);
+        // Ustaw ciasteczko userID na 3000 dni
+        setCookie("userID", email, 3000);
+    } else {
+        console.warn("Invalid email detected: " + email);
     }
-  })();
+})();
 </script>
