@@ -1,0 +1,10 @@
+function() {
+    try {
+        // Odczytaj wartość z localStorage
+        var value = localStorage.getItem('userID');
+        return value || null; // Zwróć wartość lub null, jeśli nie istnieje
+    } catch (e) {
+        // Obsłuż błędy (np. jeśli przeglądarka blokuje dostęp do localStorage)
+        return null;
+    }
+}
