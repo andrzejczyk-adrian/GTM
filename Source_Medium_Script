@@ -1,15 +1,10 @@
 <script>
-/* 
-Autorski skrypt poprawiający jakość ruchu. Po więcej informacji zapraszam do kontaktu:
-Adrian Andrzejczyk - https://andrzejczyk.com.pl
-*/
-  
   // Funkcja do ustawiania ciasteczka
   function setCookie(name, value, days) {
     var expires = "";
     if (days) {
       var date = new Date();
-      date.setTime(date.getTime() + (8 * 60 * 60 * 1000));
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
       expires = "; expires=" + date.toUTCString();
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=Lax";
@@ -52,14 +47,14 @@ Adrian Andrzejczyk - https://andrzejczyk.com.pl
 
   // Funkcja do ustawiania cookies z LocalStorage
   function setLocalStorageCookies() {
-    var source = localStorage.getItem('source_2');
-    var medium = localStorage.getItem('medium_2');
-    setCookie('source_2_local', source, 31);  // Ustawienie ciasteczka na 1 dni
-    setCookie('medium_2_local', medium, 31);  // Ustawienie ciasteczka na 1 dni
+    var source = localStorage.getItem('source_3');
+    var medium = localStorage.getItem('medium_3');
+    setCookie('source_3_local', source, 30);  // Ustawienie ciasteczka na 30 dni
+    setCookie('medium_3_local', medium, 30);  // Ustawienie ciasteczka na 30 dni
   }
 
   // Lista wykluczonych domen
-  var excludedDomainsRegex = /(?:domena\.pl|tagassistant\.google\.com|accounts\.google\.com|accounts\.google\.pl|adpanel\.apaczka\.pl|api\.pekao24\.pl|app\.asana\.com|app\.zowie\.ai|b24-1uiumn\.bitrix24\.pl|bankmillennium\.pl|bosbank24\.pl|business\.facebook\.com|ca24\.credit-agricole\.pl|centrum24\.pl|citibankonline\.pl|com\.slack|credit\.payu\.com|docs\.google\.com|eblik\.pl|euc-excel\.officeapps\.live\.com|exchange\.vuemail\.com|go\.przelewy24\.pl|imoje-backoffice\.paymento\.pl|ingbank\.pl|inteligo\.pl|ipko\.pl|kbs24\.pl|kew\.advisor247\.pl|localhost|login\.ingbank\.pl|login\.nestbank\.pl|m\.poczta\.onet\.pl|mail\.google\.com|mail\.grupazpr\.pl|mail\.northfood\.pl|mail\.volta\.net\.pl|mpoczta\.me\.pl|mtransfer\.mbank\.pl|officeapps\.live\.com|pay\.bm\.pl|paypal\.com|paywall\.imoje\.pl|pekaobiznes24\.pl|platnosci\.pekao24\.pl|plusbank24\.pl|poczta\.ath\.bielsko\.pl|poczta\.diag\.pl|poczta\.eurozet\.pl|poczta\.gazeta\.pl|poczta\.infocity\.pl|poczta\.interia\.pl|poczta\.jadmar\.com\.pl|poczta\.nazwa\.pl|poczta\.o2\.pl|poczta\.onet\.pl|poczta\.psse\.malopolska\.pl|poczta\.wp\.pl|search-dre\.dt\.dbankcloud\.com|secure\.getinbank\.pl|secure\.paylane\.com|secure\.payu\.com|system\.aliorbank\.pl)/;
+  var excludedDomainsRegex = /(?:domena\.pl|tagassistant\.google\.com|poczta\.wp\.pl|poczta\.interia\.pl|poczta\.o2\.pl|poczta\.onet\.pl|poczta\.gazeta\.pl|mail\.google\.com|zasobygwp\.pl|system\.t-mobilebankowe\.pl|system\.aliorbank\.pl|sgb24\.pl|secure\.payu\.com|secure\.getinbank\.pl|rwd\.bskrasnystaw\.pl|plusbank24\.pl|platnosci\.pl|platnosci\.pekao24\.pl|planet\.bnpparibas\.pl|pekaobiznes24\.pl|pbn\.paybynet\.com\.pl|payu\.com|paypal\.com|online\.sbrbank\.pl|online\.sbppiaski\.pl|online\.pbssokolow\.pl|online\.mbank\.pl|online\.bsgorzyce\.pl|online\.bsgarwolin\.com\.pl|online\.bsbr\.pl|online\.bs\.bialystok\.pl|net-bank\.bszgierz\.pl|nestbank\.pl|mtransfer\.mbank\.pl|login\.ingbank\.pl|konto\.sblzlotow\.com\.pl|konto\.bskobierzyce\.pl|konto\.bs-zywiec\.pl|ipko\.pl|inteligo\.pl|ibank\.sanbank\.pl|ibank\.bskoscierzyna\.pl|ib\.bsbialogard\.pl|epayments\.goonline\.bnpparibas\.pl|ekonto\.bskonin\.pl|ebsd\.pl|ebs\.bsostrowmaz\.pl|ebs-zabkowicesl\.pl|eborwd\.bsjasionka\.pl|ebo\.bsstaszow\.pl|ebo\.bsjarocin\.pl|ebo\.bs-suchedniow\.com\.pl|ebo\.bankbbs\.pl|ebn\.silesiabank\.pl|eblik\.pl|ebank\.pbsgostyn\.pl|ebank\.mazoviabank\.pl|ebank\.bsskierniewice\.pl|ebank\.bsnowytarg\.pl|ebank\.bslacko\.pl|ebank\.bsjordanow\.pl|ebank\.bsjablonka\.pl|ebank\.bsglogowek\.pl|e24\.bsmilicz\.com\.pl|e\.pbskkozle\.pl|e\.bssejny\.pl|e\.bsrabawyzna\.pl|e\.bsnarol\.pl|e\.bsgrybow\.pl|e\.bsgrodzisk\.pl|e\.bsglogow\.pl|e-bsw\.pl|e-bank\.gbsmiedzyrzecz\.pl|cloud\.ideabank\.pl|citibankonline\.pl|centrum24\.pl|cbp\.cui\.pl|ca24\.credit-agricole\.pl|bswschowa24\.pl|bswolczyn24\.pl|bstorun24\.pl|bsradzyn24\.pl|bsnidzica\.cui\.pl|bskrotoszyn\.cui\.pl|bsjaroslaw\.cui\.pl|bsbiecz24\.pl|bs24slupca\.pl|bosbank24\.pl|bn\.aliorbank\.pl|bankmillennium\.pl|bank\.bskrasnosielc\.pl|bank\.bsgoworowo\.pl|mbank\.pl|aliorbank\.pl|arcot\.com|bankmillennium\.pl|bankpbs\.pl|bgzbnpparibas\.pl|blikmobile\.pl|bluemedia\.pl|bm\.pl|bosbank\.pl|bosbank24\.pl|bph\.pl|bzwbk\.pl|cashbill\.pl|centrum24\.pl|citibank\.pl|citibankonline\.pl|credit-agricole\.pl|db-pbc\.pl|deutschebank\.pl|dotpay\.pl|ebgz\.pl|eblik\.pl|ecard\.pl|eservice\.pl|eurobank\.pl|firmao\.pl|getinbank\.pl|homepay\.pl|ideabank\.pl|ingbank\.pl|inteligo\.pl|ipko\.pl|mastercard\.pl|mbank\.com\.pl|mbank\.pl|multibank\.pl|nestbank\.pl|noblebank\.pl|nordea\.pl|orangefinanse\.com\.pl|paybynet\.pl|paylane\.pl|paypal\.com|paypal\.pl|payu\.com|pbsbank\.pl|pekao24\.pl|pekaobiznes24\.pl|peopay\.pl|pkobp\.pl|platnosci-online\.pl|platnosci\.pl|plusbank\.pl|plusbank24\.pl|pocztowy24\.pl|polcard\.com\.pl|polcard\.pl|przelewy24\.pl|r-bank\.pl|raiffeisenpolbank\.com|santander24\.pl|securecode\.com|sofort\.com|t-mobilebankowe\.pl|toyotabank\.pl|tpay\.com|transferuj\.pl|transferwise\.com|visa\.pl|vpos\.polcard\.com\.pl|vwbank\.pl|yetipay\.pl|api\.sociaplus\.com|inone\.useinsider\.com|panel\.sociaplus\.com|paypo\.pl|bps\.3dsecure\.itcard\.pl|ckpay\.cinkciarz\.pl|e-bank\.lubuskibs\.pl|okbank\.pl)/;
 
   // Lista wyszukiwarek z regexami
   var searchEngines = {
@@ -69,7 +64,7 @@ Adrian Andrzejczyk - https://andrzejczyk.com.pl
   };
 
   // Lista wykluczonych URL-i
-  var excludedPathsRegex = /\/(koszyk|edycja-konta|logowanie)/;
+  var excludedPathsRegex = /\/(koszyk|edycja-konta|some-other-path)/;
 
   // Główna funkcja do sprawdzania i zapisywania utm_source i utm_medium
   function checkAndStoreUTM() {
@@ -80,32 +75,32 @@ Adrian Andrzejczyk - https://andrzejczyk.com.pl
     var referrer = document.referrer;
 
     // Sprawdzenie czy są już ustawione ciasteczka
-    var cookieSource = getCookie('source_2');
-    var cookieMedium = getCookie('medium_2');
+    var cookieSource = getCookie('source_3');
+    var cookieMedium = getCookie('medium_3');
 
     // Funkcja do czyszczenia LocalStorage i ustawiania nowych wartości
     function clearAndSetLocalStorage(source, medium) {
-      clearLocalStorage('source_2');
-      clearLocalStorage('medium_2');
-      setLocalStorage('source_2', source);
-      setLocalStorage('medium_2', medium);
+      clearLocalStorage('source_3');
+      clearLocalStorage('medium_3');
+      setLocalStorage('source_3', source);
+      setLocalStorage('medium_3', medium);
       setLocalStorageCookies();  // Ustawienie cookies z LocalStorage
     }
 
     if (gclid || fbclid) {
       console.log("Setting cookies and LocalStorage for gclid or fbclid");
       var source = gclid ? 'google' : 'facebook';
-      setCookie('source_2', source, 31);  // Ustawienie ciasteczka na 31 dni
-      setCookie('medium_2', 'cpc', 31);    // Ustawienie ciasteczka na 31 dni
+      setCookie('source_3', source, 30);  // Ustawienie ciasteczka na 30 dni
+      setCookie('medium_3', 'cpc', 30);    // Ustawienie ciasteczka na 30 dni
       clearAndSetLocalStorage(source, 'cpc');  // Ustawienie LocalStorage
       return;
     }
 
     if (utmSource) {
       console.log("Setting cookies and LocalStorage for utm_source");
-      setCookie('source_2', utmSource || 'none', 31);  // Ustawienie ciasteczka na 31 dni
-      setCookie('medium_2', utmMedium || 'none', 31);  // Ustawienie ciasteczka na 31 dni
-      clearAndSetLocalStorage(utmSource || '(none)', utmMedium || '(none)');  // Ustawienie LocalStorage
+      setCookie('source_3', utmSource || 'none', 180);  // Ustawienie ciasteczka na 180 dni
+      setCookie('medium_3', utmMedium || 'none', 180);  // Ustawienie ciasteczka na 180 dni
+      clearAndSetLocalStorage(utmSource || 'none', utmMedium || 'none');  // Ustawienie LocalStorage
       return;
     }
 
@@ -113,8 +108,8 @@ Adrian Andrzejczyk - https://andrzejczyk.com.pl
     for (var engine in searchEngines) {
       if (searchEngines[engine].test(referrer)) {
         console.log("Setting cookies and LocalStorage for search engine referrer");
-        setCookie('source_2', engine, 10);  // Ustawienie ciasteczka na 10 dni
-        setCookie('medium_2', 'organic', 10);  // Ustawienie ciasteczka na 10 dni
+        setCookie('source_3', engine, 30);  // Ustawienie ciasteczka na 30 dni
+        setCookie('medium_3', 'organic', 30);  // Ustawienie ciasteczka na 30 dni
         clearAndSetLocalStorage(engine, 'organic');  // Ustawienie LocalStorage
         return;
       }
@@ -129,9 +124,9 @@ Adrian Andrzejczyk - https://andrzejczyk.com.pl
     // Jeśli żadne z powyższych, ustaw ciasteczka i LocalStorage na direct i none
     if (!cookieSource && !cookieMedium) {
       console.log("Setting default cookies and LocalStorage for direct traffic");
-      setCookie('source_2', '(direct)', 1);  // Ustawienie ciasteczka na 1 dni
-      setCookie('medium_2', '(none)', 1);    // Ustawienie ciasteczka na 1 dni
-      clearAndSetLocalStorage('(direct)', '(none)');  // Ustawienie LocalStorage
+      setCookie('source_3', 'direct', 30);  // Ustawienie ciasteczka na 30 dni
+      setCookie('medium_3', 'none', 30);    // Ustawienie ciasteczka na 30 dni
+      clearAndSetLocalStorage('direct', 'none');  // Ustawienie LocalStorage
     } else {
       // Ustawienie cookies z LocalStorage jeśli istnieją już wartości
       setLocalStorageCookies();
