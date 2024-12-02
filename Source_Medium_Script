@@ -1,3 +1,5 @@
+<script>
+
 /* 
 EN: Script created by Adrian Andrzejczyk - andrzejczyk.com.pl. Leverage the best in analytics and optimization! 
 If you find it useful, please leave a reaction or mention me on social media. Thank you in advance for your support! 
@@ -7,7 +9,6 @@ Jeśli z nich korzystasz, możesz się odwdzięczyć reakcją lub wzmianką w me
 Z góry dzięki! 
 */
 
-<script>
   // Funkcja do ustawiania ciasteczka
   function setCookie(name, value, days) {
     var expires = "";
