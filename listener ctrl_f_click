@@ -9,7 +9,7 @@ PL: Skrypt stworzony przez Adriana Andrzejczyka - andrzejczyk.com.pl. Moje rozwi
   document.addEventListener('keydown', function(evt) {
     if (evt.which == '70' && evt[ctrlKey]) {
       dataLayer.push({
-        event: "searchUsed"
+        event: "ctrl_f"
       })
     }
   });
