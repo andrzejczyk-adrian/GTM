@@ -1,0 +1,6 @@
+function() {
+ var filepath = {{Click URL}}.split("/");
+ var filename = filepath.pop();
+ var decodedFilename = decodeURI(filename);
+ return decodedFilename.indexOf(".") > -1?decodedFilename:'n/a';
+}
