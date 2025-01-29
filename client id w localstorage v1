@@ -1,0 +1,50 @@
+<script>
+// Funkcja do pobierania Client ID z GA cookie
+function getGAClientId() {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith('_ga=')) {
+            const parts = cookie.split('.');
+            return parts.slice(-2).join('.');
+        }
+    }
+    return null;
+}
+
+// Funkcja do zapisywania Client ID w localStorage i cookie
+function saveClientId(clientId) {
+    if (!clientId) return;
+    
+    // Zapis do localStorage tylko jeśli nie ma jeszcze zapisanej wartości
+    if (!localStorage.getItem('ga_client_id')) {
+        localStorage.setItem('ga_client_id', clientId);
+    }
+    
+    // Używamy wartości z localStorage do zapisu cookie
+    const storedClientId = localStorage.getItem('ga_client_id');
+    const expiryDate = new Date();
+    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+    document.cookie = `ga_client_id=${storedClientId};expires=${expiryDate.toUTCString()};path=/;domain=${window.location.hostname}`;
+}
+
+// Funkcja inicjalizująca
+function initClientIdTracking() {
+    // Najpierw sprawdź czy mamy już Client ID w localStorage
+    const storedClientId = localStorage.getItem('ga_client_id');
+    
+    if (storedClientId) {
+        // Jeśli mamy zapisany ID w localStorage, używamy go
+        saveClientId(storedClientId);
+    } else {
+        // Tylko jeśli nie ma w localStorage, próbujemy pobrać z GA cookie
+        const gaClientId = getGAClientId();
+        if (gaClientId) {
+            saveClientId(gaClientId);
+        }
+    }
+}
+
+// Uruchom przy załadowaniu strony
+document.addEventListener('DOMContentLoaded', initClientIdTracking);
+</script>
