@@ -1,0 +1,46 @@
+<script>
+  // Wstaw tutaj swoje prawdziwe Measurement ID w miejsce G-XXXXXXX
+  const GA4_MEASUREMENT_ID = 'G-xxxxxxxxxxxxx';
+  
+  // Prosta funkcja pomocnicza do ustawiania cookie na 365 dni
+  function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = `${name}=${value};${expires};path=/`;
+  }
+
+  /**
+   * Funkcja pobierająca i zapisująca Client ID wyłącznie wtedy,
+   * gdy nie ma jeszcze żadnej wartości w localStorage.
+   */
+  function setClientIdOnlyIfEmpty() {
+    const existingClientId = localStorage.getItem('clientId');
+
+    if (existingClientId) {
+      // Mamy już Client ID w localStorage – nie nadpisujemy go!
+      console.log('W localStorage jest już Client ID. Nie nadpisujemy:', existingClientId);
+      return;
+    }
+
+    // Jeżeli nie ma Client ID w localStorage, to pobieramy je z GA4
+    gtag('get', GA4_MEASUREMENT_ID, 'client_id', function(clientId) {
+      if (clientId) {
+        // Zapis do localStorage
+        localStorage.setItem('clientId', clientId);
+
+        // (opcjonalnie) ustaw cookie na 365 dni
+        setCookie('clientId', clientId, 365);
+
+        console.log('Pobrano nowy Client ID i zapisano:', clientId);
+      } else {
+        console.warn('Nie udało się pobrać Client ID z GA4.');
+      }
+    });
+  }
+
+  // Uruchamiamy sprawdzanie i zapisywanie ID tylko w razie potrzeby
+  window.addEventListener('load', function() {
+    setClientIdOnlyIfEmpty();
+  });
+</script>
