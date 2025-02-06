@@ -1,0 +1,15 @@
+function() {
+  try {
+    // Sprawdzamy czy istnieje obiekt ecommerce i jego items
+    var ecommerce = google_tag_manager[{{Container ID}}].dataLayer.get('ecommerce');
+    if (!ecommerce || !ecommerce.items) return [];
+    
+    // Mapujemy items aby wyciągnąć same item_id
+    return ecommerce.items.map(function(item) {
+      return item.item_id;
+    });
+    
+  } catch(e) {
+    return [];
+  }
+}
