@@ -1,0 +1,42 @@
+function transformDataLayer() {
+  try {
+    // Pobieramy dane z warstwy danych
+    var ecommerce = google_tag_manager[{{Container ID}}].dataLayer.get('ecommerce');
+    
+    if (!ecommerce || !ecommerce.items) {
+      return null;
+    }
+
+    // Przekształcamy items na wymagany format
+    var contents = ecommerce.items.map(function(item) {
+      return {
+        id: item.item_id,
+        item_price: item.price,
+        quantity: item.quantity
+      };
+    });
+
+    // Obliczamy całkowitą ilość przedmiotów
+    var num_items = ecommerce.items.reduce(function(total, item) {
+      return total + (item.quantity || 0);
+    }, 0);
+
+    // Tworzymy nowy obiekt w wymaganym formacie
+    var transformedData = {
+      contents: contents,
+      num_items: num_items
+    };
+
+    // Pushujemy nowe dane do dataLayer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'transformed_ecommerce': transformedData
+    });
+
+    return transformedData;
+
+  } catch(e) {
+    console.error('Error transforming dataLayer:', e);
+    return null;
+  }
+}
